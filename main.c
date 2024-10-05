@@ -1,17 +1,17 @@
 #include "archivos.h"
 
 int main() {
-    char filename[256];
+    CSVData data;
 
-    // Solicitar al usuario que ingrese el nombre del archivo
-    printf("Por favor, ingresa el nombre del archivo CSV: ");
-    scanf("%255s", filename);
+    // Leer el archivo CSV y almacenar las líneas en la estructura `data`
+    read_csv("test.csv", &data);
 
-    // Leer el archivo CSV proporcionado por el usuario
-    read_csv(filename);
+    // Llamar a diferentes funciones que trabajen con las líneas almacenadas
+    // En este caso, mostramos las líneas utilizando la función print_csv
+    print_csv(&data);
 
     return 0;
 }
 
-//gcc main.c archivos.c -o programa -> para que lo corras en la terminal
-//./programa -> para que lo corras en la terminal
+// Para compilar: gcc main.c archivos.c -o programa
+// Para ejecutar: ./programa

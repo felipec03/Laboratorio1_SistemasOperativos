@@ -1,7 +1,8 @@
-// csv_reader.c
 #include "archivos.h"
 
-// Implementación manual de strcspn -> su funcion es encontrar los saltos de linea
+// Implementación manual de strcspn
+// Esta función cuenta la cantidad de caracteres en una cadena `str` 
+// antes de encontrar cualquiera de los caracteres en `reject`.
 size_t my_strcspn(const char *str, const char *reject) {
     const char *p, *r;
     size_t count = 0;
@@ -17,20 +18,19 @@ size_t my_strcspn(const char *str, const char *reject) {
     return count;
 }
 
-// Implementación manual de strchr
-// su funcion es encontrar un caracter en un string en este caso el caracter ;
-char* my_strchr(const char *str, int c) {
-    while (*str) {
-        if (*str == (char)c) {
-            return (char*)str;
-        }
-        str++;
+// Implementación manual de strcpy
+// Copia el contenido de `src` a `dest` hasta encontrar el terminador nulo.
+void my_strcpy(char *dest, const char *src) {
+    while (*src != '\0') {
+        *dest++ = *src++;
     }
-    return NULL;
+    *dest = '\0';  // Añadir el terminador nulo al final
 }
 
-// Función para leer un archivo CSV e imprimir sus valores
-void read_csv(const char *filename) {
+// Función que lee el archivo y almacena las líneas sin realizar ninguna operación adicional
+// La función utiliza my_strcspn para eliminar el salto de línea
+// y my_strcpy para almacenar cada línea en la estructura CSVData.
+void read_csv(const char *filename, CSVData *data) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         printf("No se pudo abrir el archivo %s\n", filename);
@@ -38,79 +38,25 @@ void read_csv(const char *filename) {
     }
 
     char line[MAX_LINE_LENGTH];
+    data->line_count = 0;  // Inicializar contador de líneas
 
     // Leer cada línea del archivo
     while (fgets(line, sizeof(line), file)) {
-        // Reemplazar el salto de línea al final usando la implementación manual de strcspn
+        // Eliminar el salto de línea al final usando la implementación manual de strcspn
         line[my_strcspn(line, "\n")] = 0;
 
-        // Separar los valores usando ; como delimitador sin strtok
-        char *start = line;
-        char *end;
-
-        while ((end = my_strchr(start, ';')) != NULL) {
-            *end = '\0'; // Terminar el string donde está el delimitador
-            printf("%s\t", start);  // Procesar el token
-            start = end + 1; // Mover el puntero al siguiente carácter después del delimitador
-        }
-
-        // Imprimir el último token después del último delimitador
-        if (*start != '\0') {
-            printf("%s\t", start);
-        }
-
-        printf("\n");
+        // Almacenar la línea en la estructura CSVData utilizando my_strcpy
+        my_strcpy(data->lines[data->line_count], line);
+        data->line_count++;
     }
 
     // Cerrar el archivo
     fclose(file);
 }
 
-//codigo comentado con un espacio para trabajar las cadenas
-/*
-void read_csv(const char *filename) {
-    FILE *file = fopen(filename, "r");
-    if (file == NULL) {
-        printf("No se pudo abrir el archivo %s\n", filename);
-        return;
+// Función que muestra las líneas almacenadas del archivo
+void print_csv(const CSVData *data) {
+    for (int i = 0; i < data->line_count; ++i) {
+        printf("%s\n", data->lines[i]);
     }
-
-    char line[MAX_LINE_LENGTH];
-
-    // Leer cada línea del archivo
-    while (fgets(line, sizeof(line), file)) {
-        // Reemplazar el salto de línea al final usando la implementación manual de strcspn
-        line[my_strcspn(line, "\n")] = 0;
-
-        // Bloque de espacio para trabajar con las cadenas
-        // --------------------------------------------------
-        // Reemplazar todos los caracteres '/' por '\'
-        for (char *p = line; *p != '\0'; ++p) {
-            if (*p == '/') {
-                *p = '\\';
-            }
-        }
-        // --------------------------------------------------
-
-        // Separar los valores usando ; como delimitador sin strtok
-        char *start = line;
-        char *end;
-
-        while ((end = my_strchr(start, ';')) != NULL) {
-            *end = '\0'; // Terminar el string donde está el delimitador
-            printf("%s\t", start);  // Procesar el token
-            start = end + 1; // Mover el puntero al siguiente carácter después del delimitador
-        }
-
-        // Imprimir el último token después del último delimitador
-        if (*start != '\0') {
-            printf("%s\t", start);
-        }
-
-        printf("\n");
-    }
-
-    // Cerrar el archivo
-    fclose(file);
 }
-*/
