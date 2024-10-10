@@ -1,29 +1,16 @@
-#include <stdio.h>
-#include <unistd.h>
+#include "count.h"
+// Función que cuenta el número de líneas en el archivo
+int contar_lineas(CSVData *data){
+    return data->line_count;
+}
 
-int main(int argc, char* argv[]){
-	int option;
-
-	while( (option = getopt(argc, argv, "LCi:") ) != -1){
-		switch(option){
-			case 'L':
-				printf("Opción L, líneas. \n");
-				break;
-			case 'C':
-				printf("Option C, columnas. \n");
-				break;
-			case 'i':
-				printf("Opcion i, input de archivo de nombre: %s\n", optarg);
-				break;
-			case '?':
-				printf("Opción desconocida, intentar nuevamente. %c\n", optopt);
-				break;
-		}
-	}
-
-	for(int i = optind; i < argc; i++){
-		printf("Argumento: %d: %s\n", i, argv[i]);
-	}
-
-	return 0;
+// Función que cuenta el número de caracteres en todas las líneas
+int contar_caracteres(CSVData *data){
+    int contador = 0;
+    for(int i = 0; i < data->line_count; i++){
+        for(int j = 0; data->lines[i][j] != '\0'; j++){
+            contador++;
+        }
+    }
+    return contador;
 }

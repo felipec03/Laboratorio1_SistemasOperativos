@@ -8,7 +8,7 @@
 
 // Estructura para almacenar las líneas del archivo CSV
 typedef struct {
-    char lines[100][MAX_LINE_LENGTH];  // Puedes ajustar el tamaño según tus necesidades
+    char lines[100][MAX_LINE_LENGTH];
     int line_count;
 } CSVData;
 
