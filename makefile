@@ -1,27 +1,43 @@
-FLAGS = -g
-#FLAGS = -O2
-all: archivos.c archivos.h
+# Makefile for C project
 
-archivos: archivos.c archivos.h
-	gcc $(FLAGS) archivos.c -o archivos
+# Compiler
+CC = gcc
 
-testQueue: State.o Queue.o testQueue.cpp
-	g++ $(FLAGS) State.o Queue.o testQueue.cpp -o testQueue
+# Compiler flags
+CFLAGS = -Wall -g
 
-test_State: State.o testQueue.cpp
-	g++ $(FLAGS) State.o test_State.cpp -o test_State
+# Source files
+SRC = cut.c srep.c count.c archivos.c
 
-testJug: State.o testJug.cpp
-	g++ $(FLAGS) State.o testJug.cpp -o testJug
+# Object files
+OBJ = cut.o srep.o count.o archivos.o
 
-State.o: State.h State.cpp
-	g++ $(FLAGS) -c State.cpp
+# Executable files
+EXECUTABLES = cut srep count
 
-Queue.o: Queue.h Queue.cpp
-	g++ $(FLAGS) -c Queue.cpp
+# Default target
+all: $(EXECUTABLES)
 
-Jug.o: Jug.h Jug.cpp
-	g++ $(FLAGS) -c Jug.cpp
+# Rules to create each executable
+cut: cut.o archivos.o
+	$(CC) -o $@ $^
 
+srep: srep.o archivos.o
+	$(CC) -o $@ $^
+
+count: count.o archivos.o
+	$(CC) -o $@ $^
+
+# Compiling source files to object files
+%.o: %.c %.h
+	$(CC) $(CFLAGS) -c $<
+
+# Additional rule for archivos.c without a header
+archivos.o: archivos.c
+	$(CC) $(CFLAGS) -c $<
+
+# Clean up build files
 clean:
-	rm $(FLAGS) -f *.o testQueue test_State
+	rm -f $(OBJ) $(EXECUTABLES)
+
+.PHONY: all clean
