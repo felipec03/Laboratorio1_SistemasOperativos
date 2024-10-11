@@ -7,6 +7,7 @@
 #define MAX_LINE_LENGTH 1024
 
 // Estructura para almacenar las líneas del archivo CSV
+// En el fondo, es una matriz de caracteres
 typedef struct {
     char lines[100][MAX_LINE_LENGTH];
     int line_count;
