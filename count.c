@@ -1,11 +1,16 @@
 #include "count.h"
 #include "count.h"
+
 // Función que cuenta el número de líneas en el archivo
+// Entrada: Puntero a la estructura CSVData
+// Salida: Número de líneas en el archivo
 int contar_lineas(CSVData *data){
     return data->line_count;
 }
 
 // Función que cuenta el número de caracteres en todas las líneas
+// Entrada: Puntero a la estructura CSVData
+// Salida: Número de caracteres en todas las líneas
 int contar_caracteres(CSVData *data){
     int contador = 0;
     for(int i = 0; i < data->line_count; i++){
@@ -18,7 +23,6 @@ int contar_caracteres(CSVData *data){
 
 int main(int argc, char *argv[])
 {
-
 	// Variable propia de getopt y unistd
     int opt;
 
