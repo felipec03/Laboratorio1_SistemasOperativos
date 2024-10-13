@@ -1,24 +1,24 @@
-# Makefile for C project
+# Makefile Lab1
 
-# Compiler
+# compilador
 CC = gcc
 
-# Compiler flags
+# flags
 CFLAGS = -Wall -g
 
-# Source files
+# archivos base
 SRC = cut.c srep.c count.c archivos.c
 
-# Object files
+# objetos
 OBJ = cut.o srep.o count.o archivos.o
 
-# Executable files
+# archivos finales ejecutables por consola
 EXECUTABLES = cut srep count
 
-# Default target
+# target por defecto
 all: $(EXECUTABLES)
 
-# Rules to create each executable
+# reglas del makefile
 cut: cut.o archivos.o
 	$(CC) -o $@ $^
 
@@ -28,16 +28,14 @@ srep: srep.o archivos.o
 count: count.o archivos.o
 	$(CC) -o $@ $^
 
-# Compiling source files to object files
+# se compilan los objetos source a objetos
 %.o: %.c %.h
 	$(CC) $(CFLAGS) -c $<
 
-# Additional rule for archivos.c without a header
+# regla adicional para .c sin .h
 archivos.o: archivos.c
 	$(CC) $(CFLAGS) -c $<
 
-# Clean up build files
+# limpiar en caso de recompilación y órden
 clean:
 	rm -f $(OBJ) $(EXECUTABLES)
-
-.PHONY: all clean

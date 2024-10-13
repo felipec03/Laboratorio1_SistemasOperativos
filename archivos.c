@@ -1,6 +1,7 @@
 #include "archivos.h"
 
-// Funcion separadora de lineas en un archivo CSV
+// Funciones de string artesanal
+
 // strcspn artesanal, considera saltos de linea
 // Hasta encotnrar el /n almacena en la cadena destino
 // Entrada: dos cadenas de caracteres
@@ -20,9 +21,9 @@ size_t my_strcspn(const char *str, const char *reject) {
     return count;
 }
 
+// String copy casero
 // Entrada: dos cadenas de caracteres
 // Salida: void, hace un proceso.
-// String copy casero
 void my_strcpy(char *dest, const char *src) {
 	// Copiar cada caracter de la cadena fuente a la cadena destino
     while (*src != '\0') {
@@ -31,6 +32,40 @@ void my_strcpy(char *dest, const char *src) {
     // Añadir el terminador nulo al final de la cadena destino
     *dest = '\0';
 }
+
+// Implementación artesanal de strcat
+// Entrada: dos cadenas de caracteres
+// Salida: concatenación de las dos cadenas
+char* my_strcat(char* dest, const char* src) {
+	// Mover el puntero al final de la cadena destino
+	while (*dest != '\0') {
+		dest++;
+	}
+
+	// Copiar cada caracter de la cadena fuente a la cadena destino
+	while (*src != '\0') {
+		*dest++ = *src++;
+	}
+
+	// Añadir el terminador nulo al final de la cadena destino
+	*dest = '\0';
+	return dest;
+}
+
+// Función auxiliar para obtener la longitud de una cadena
+// Entrada: una cadena de caracteres
+// Salida: tamaño de la cadena cómo entero
+int my_strlen(const char *str) {
+    int len = 0;
+    while (str[len] != '\0') {
+        len++;
+    }
+    return len;
+}
+
+
+// Funciones de CSV
+// ----------------------------
 
 // Entrada: nombre del archivo y estructura donde se almacenarán los datos
 // Salida: void, hace un proceso.

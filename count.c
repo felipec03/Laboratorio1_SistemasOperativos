@@ -1,5 +1,4 @@
 #include "count.h"
-#include "count.h"
 
 // Función que cuenta el número de líneas en el archivo
 // Entrada: Puntero a la estructura CSVData
@@ -30,7 +29,7 @@ int main(int argc, char *argv[])
     int opcionC = 0;
     int opcionL = 0;
     // Variable para el nombre del archivo
-    char* filename = NULL;
+    char* archivo = NULL;
 
     // Ciclo para leer las opciones de los flags
     while((opt = getopt(argc, argv, "CLi:")) != -1)
@@ -39,7 +38,7 @@ int main(int argc, char *argv[])
         {
         	// Opción para el nombre del archivo
         	case 'i':
-                filename = optarg;
+                archivo = optarg;
                 break;
 
             // Opción para contar el número de caracteres
@@ -58,13 +57,13 @@ int main(int argc, char *argv[])
         }
     }
 
-    CSVData data;
-
     // Leer el archivo CSV y almacenar las líneas en la estructura `data`
-    read_csv(filename, &data);
+    CSVData data;
+    read_csv(archivo, &data);
 
-    // Llamamos funciones de archivos.c
-    int lineas = contar_lineas(&data);
+    // Sacando el número de líneas y caracteres por medio de la estructura
+    // Además de contar caracteres declarado al comienzo del programa
+    int lineas = data.line_count;
     int caracteres = contar_caracteres(&data);
 
     // Opciones de impresión por flags
