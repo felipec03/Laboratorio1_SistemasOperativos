@@ -4,21 +4,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-// Función que separa las columnas de un archivo CSV en la estructura CSVColumns
-// Entrada: Puntero a la estructura CSVData, delimitador, puntero a la estructura CSVColumns
-// Salida: Estructura CSVColumns con las columnas separadas, pasada como argumento.
+
+
 void split(CSVData *data, const char delimiter, CSVColumns *columns_data) {
-	// Inicializamos el delimitador actual
     char actual_delimiter = delimiter == '\0' ? '\t' : delimiter;
 
-    // Inicializamos el contador de lineas
+    // Inicializamos el contador de líneas
     columns_data->line_count = data->line_count;
     columns_data->columns = (char ***)malloc(sizeof(char **) * data->line_count);
     columns_data->column_count = (int *)malloc(sizeof(int) * data->line_count);
 
-    // Ciclo que itera sobre cada línea
     for (int i = 0; i < data->line_count; i++) {
-    	// Variables en scope de la función
         char *line = data->lines[i];
         int line_len = 0;
         int has_delimiter = 0;
@@ -26,13 +22,11 @@ void split(CSVData *data, const char delimiter, CSVColumns *columns_data) {
         // Contamos los caracteres de la línea hasta el final
         while (line[line_len] != '\0') {
             if (line[line_len] == actual_delimiter) {
-            	// Detectamos delimitador
-                has_delimiter = 1;
+                has_delimiter = 1;  // Detectamos la presencia del delimitador
             }
             line_len++;
         }
 
-        // Consideramos casos de borde
         if (!has_delimiter) {
             // Si no se encontró el delimitador, tratamos toda la línea como una sola columna
             columns_data->columns[i] = (char **)malloc(sizeof(char *));
@@ -41,8 +35,7 @@ void split(CSVData *data, const char delimiter, CSVColumns *columns_data) {
                 columns_data->columns[i][0][j] = line[j];
             }
             columns_data->columns[i][0][line_len] = '\0';
-            // Solo una columna
-            columns_data->column_count[i] = 1;
+            columns_data->column_count[i] = 1;  // Solo una columna
         } else {
             // Aquí haces la separación normal si se encontró el delimitador
             char **columns = (char **)malloc(sizeof(char *) * line_len);
@@ -67,37 +60,30 @@ void split(CSVData *data, const char delimiter, CSVColumns *columns_data) {
     }
 }
 
-
 // Función cut que selecciona columnas objetivo de un arreglo de líneas y columnas
-// Entrada: Puntero a la estructura CSVColumns,
-// puntero a un arreglo de índices de columnas objetivo,
-// número de columnas objetivo
-// Salida: Arreglo de líneas y columnas seleccionadas
-char ***cut(CSVColumns *columns_data, int *col_obj, int num_cobj) {
+// Función cut para extraer las columnas objetivo
+char ***cut(CSVColumns *columns_data, int *cobj, int num_cobj) {
+
+
     int num_lines = columns_data->line_count;
 
-    // Asignamos memoria al resultado
+    // Crear el resultado que contendrá las columnas seleccionadas
     char ***result = (char ***)malloc(num_lines * sizeof(char **));
 
-    // Iteramos sobre cada línea
+    // Iterar sobre cada línea
     for (int i = 0; i < num_lines; i++) {
-    	// Almacenar las columnas seleccionadas por linea
-        result[i] = (char **)malloc(num_cobj * sizeof(char *));
+        result[i] = (char **)malloc(num_cobj * sizeof(char *));  // Almacenar las columnas seleccionadas por línea
 
-        // Iterar sobre los indices de las columnas objetivo
+        // Iterar sobre los índices de las columnas objetivo
         for (int j = 0; j < num_cobj; j++) {
-        	// Indice de la columna que queremos extraer
-            int col_index = col_obj[j];
+            int col_index = cobj[j] - 1;  // Índice de la columna que queremos extraer
 
             // Verificar que el índice de la columna objetivo exista en esta línea
-            // Si la columna existe, asignarla al resultado
             if (col_index < columns_data->column_count[i]) {
-                // Longitud de la columna
-                int len = my_strlen(columns_data->columns[i][col_index]);
-                // Asignar memoria
-                result[i][j] = (char *)malloc((len + 1) * sizeof(char));
-                // Copiar contenido
-                my_strcpy(result[i][j], columns_data->columns[i][col_index]);
+                // Si la columna existe, asignarla al resultado
+                int len = my_strlen(columns_data->columns[i][col_index]);  // Longitud de la columna
+                result[i][j] = (char *)malloc((len + 1) * sizeof(char));  // Asignar memoria
+                my_strcpy(result[i][j], columns_data->columns[i][col_index]);  // Copiar contenido
             } else {
                 // Si la columna no existe, asignar un espacio vacío
                 result[i][j] = (char *)malloc(2 * sizeof(char));
@@ -107,6 +93,8 @@ char ***cut(CSVColumns *columns_data, int *col_obj, int num_cobj) {
     }
     return result;
 }
+
+
 
 // Función para escribir el resultado de cut en un archivo CSV
 void out(char ***cut_data, int num_lines, int num_cols, const char *filename, char delimiter) {
@@ -188,17 +176,10 @@ int main(int argc, char *argv[]) {
     const char delimitadorChar = delimitador[0];
 
     int numStringColumnas = my_strlen(stringColumnas);
-    int* arrayColumnas = (int*)malloc(numStringColumnas * sizeof(int));
+    int arrayColumnas[numStringColumnas];
     int numColumnas = 0;
-    for(int i = 0; i<my_strlen(stringColumnas); i++){
-    	if(stringColumnas[i] != ','){
-    		arrayColumnas[i] = stringColumnas[i] - '0';
-      		arrayColumnas[i]--;
-      		printf("%d\n", arrayColumnas[i]);
-      		numColumnas++;
-     	}
-    }
-    printf("Numero de columnas: %d\n", numColumnas);
+
+    transform_string_to_array(stringColumnas, arrayColumnas, &numColumnas);
 
     // Leer el archivo CSV original
     read_csv(archivoEntrada, &data);

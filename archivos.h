@@ -33,4 +33,7 @@ char* my_strcat(char *dest, const char *src);
 
 int my_strlen(const char *str);
 
+int* reverse_array(int* array, int size);
+
+void transform_string_to_array(const char input[], int output[], int *count);
 #endif // ARCHIVOS_H

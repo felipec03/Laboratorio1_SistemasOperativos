@@ -101,3 +101,35 @@ void print_csv(const CSVData *data) {
         printf("%s\n", data->lines[i]);
     }
 }
+
+int* reverse_array(int* array, int size){
+	int* reversed_array = (int*)malloc(size * sizeof(int));
+	for (int i = 0; i < size; i++){
+		reversed_array[i] = array[size - i - 1];
+	}
+	return reversed_array;
+}
+
+void transform_string_to_array(const char input[], int output[], int *count) {
+    int i = 0, j = 0, num = 0;
+    *count = 0;
+
+    while (input[i] != '\0') {
+    	// Reset number for the next integer
+        num = 0;
+        while (input[i] >= '0' && input[i] <= '9') {
+            num = num * 10 + (input[i] - '0');
+            i++;
+        }
+        // Store the number in output array
+        output[j++] = num;
+
+        // Increment count and check for the next character
+        (*count)++;
+
+        // Skip comma
+        if (input[i] == ',') {
+            i++;
+        }
+    }
+}
