@@ -2,6 +2,20 @@
 
 // Funciones de string artesanal
 
+int minValue(int myArray[], size_t size) {
+    /* enforce the contract */
+    assert(myArray && size);
+    size_t i;
+    int maxValue = myArray[0];
+
+    for (i = 1; i < size; ++i) {
+        if ( myArray[i] < maxValue ) {
+            maxValue = myArray[i];
+        }
+    }
+    return maxValue;
+}
+
 // String copy casero
 // Entrada: dos cadenas de caracteres
 // Salida: void, hace un proceso.
@@ -118,23 +132,38 @@ int* reverse_array(int* array, int size){
 // Salida: void, quedan almacenados en output y count
 void transform_string_to_array(const char input[], int output[], int *count) {
     int i = 0, j = 0, num = 0;
+    int is_negative = 0;
     *count = 0;
 
     while (input[i] != '\0') {
-    	// Reiniciar numero para el proximo numero
+        // Reiniciar número y bandera de negativo para el próximo número
         num = 0;
+        is_negative = 0;
+
+        // Comprobar si hay signo negativo
+        if (input[i] == '-') {
+            is_negative = 1;
+            i++;
+        }
+
         while (input[i] >= '0' && input[i] <= '9') {
-        	// Caso especial para los números de más de un dígito
+            // Caso para números con más de un dígito
             num = num * 10 + (input[i] - '0');
             i++;
         }
-        // Guardar numero en arreglo de salida
+
+        // Aplicar signo negativo si es necesario
+        if (is_negative) {
+            num = -num;
+        }
+
+        // Almacenar número en el arreglo de salida
         output[j++] = num;
 
-        // Se incrementa el contador
+        // Incrementar contador
         (*count)++;
 
-        // Revisa si hay una coma, si la hay se salta
+        // Comprobar si hay una coma, si la hay, saltarla
         if (input[i] == ',') {
             i++;
         }

@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <assert.h>
 // Definición de la longitud máxima de una línea en el archivo CSV
 #define MAX_LINE_LENGTH 1024
 
@@ -30,6 +31,9 @@ void print_csv(const CSVData *data);
 Funciones orientadas a "string" la mayoría son implementaciones 
 artesanales por restricción de librerías, en el fondo son reimplementaciones
 */
+
+// Declaracion de la funcion maxValue
+int minValue(int *a, size_t b);
 
 // Declaración de la función para contar la cantidad de palabras en un string
 void my_strcpy(char *dest, const char *src);

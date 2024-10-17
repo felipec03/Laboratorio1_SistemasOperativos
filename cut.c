@@ -205,6 +205,8 @@ int main(int argc, char *argv[]) {
                 }
         }
     }
+
+    // CASO BORDE:
     // Abrir los archivos para copiar en caso de que no se especifiquen columnas
     FILE *inputFile = fopen(archivoEntrada, "r");
     FILE *outputFile = fopen(archivoSalida, "a");
@@ -215,7 +217,7 @@ int main(int argc, char *argv[]) {
         // Cerrar los archivos
         fclose(inputFile);
         fclose(outputFile);
-        return 0;
+        return 1;
     }
     else{
 
@@ -236,6 +238,11 @@ int main(int argc, char *argv[]) {
     // Queda guardado en parametro columns_data
     split(&data, delimitadorChar, &columns_data);
 
+    if(minValue(arrayColumnas, numColumnas) < 1){
+        printf("Error: Columnas deben ser mayores a 0\n");
+        return 1;
+    }
+    
     // Aplicar la funcion cut para extraer las columnas objetivo
     char ***resultado_cut = cut(&columns_data, arrayColumnas, numColumnas);
 

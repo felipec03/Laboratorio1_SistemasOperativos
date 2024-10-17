@@ -146,7 +146,6 @@ void srep(CSVData *data, char *string_objetivo, char *string_nuevo, char* output
 
     // Cerrar el archivo
     fclose(fp);
-    printf("El archivo %s ha sido generado exitosamente.\n", output_file);
 }
 
 int main(int argc, char *argv[]){
@@ -188,13 +187,12 @@ int main(int argc, char *argv[]){
         }
     }
 
-    // Ahora, debemos leer el archivo de entrada tomando en consideración el input del getopt
-    // Además, tenemos que inicializar un archivo de salida
     // Inicializamos la estructura CSVData
     CSVData* inputData = malloc(sizeof(CSVData));
 
-    // Llamamos a la función read_csv
+    // Ahora, debemos leer el archivo de entrada tomando en consideración el input del getopt
     read_csv(archivoEntrada, inputData);
+
 
     // Llamamos a la función srep, que tiene por finalidad leer y escribir
     srep(inputData, stringObjetivo, stringNuevo, archivoSalida);
