@@ -141,6 +141,14 @@ void out(char ***cut_data, int num_lines, int num_cols, const char *filename, ch
     fclose(file);
 }
 
+//funcion para copiar un archivo a otro
+void copyarch(FILE *file1, FILE *file2) {
+    char c;
+    while ((c = fgetc(file1)) != EOF) {
+        fputc(c, file2);
+    }
+}
+
 int main(int argc, char *argv[]) {
     CSVData data;
     CSVColumns columns_data;
@@ -205,8 +213,17 @@ int main(int argc, char *argv[]) {
     char ***resultado_cut = cut(&columns_data, arrayColumnas, numColumnas);
 
     // Escribir el resultado en un archivo CSV de salida
-    out(resultado_cut, columns_data.line_count, numColumnas, archivoSalida, delimitadorChar);
+    if(numColumnas==0){
+        FILE *file1 = fopen(archivoEntrada, "r");
+        FILE *file2 = fopen(archivoSalida, "w");
+        copyarch(file1, file2);
+        fclose(file1);
+        fclose(file2);
+    }
+    else{
+        out(resultado_cut, columns_data.line_count, numColumnas, archivoSalida, delimitadorChar);
 
+    }    
     // Liberar memoria, buena practica =)
     for (int i = 0; i < columns_data.line_count; i++) {
         for (int j = 0; j < numColumnas; j++) {
