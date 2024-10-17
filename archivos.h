@@ -16,24 +16,31 @@ typedef struct {
     int line_count;
 } CSVData;
 
+/*
+Funciones orientadas a estructuras CSV
+*/
+
 // Declaración de la función para leer un archivo CSV y almacenar las líneas
 void read_csv(const char *filename, CSVData *data);
 
 // Declaración de la función para imprimir las líneas almacenadas
 void print_csv(const CSVData *data);
 
-// Declaración de la función manual de strcspn
-size_t my_strcspn(const char *str, const char *reject);
+/*
+Funciones orientadas a string
+*/
 
-// Declaración de la función manual de strcpy
+// Declaración de la función para contar la cantidad de palabras en un string
 void my_strcpy(char *dest, const char *src);
-
 // Declaración de la función manual de strcat
 char* my_strcat(char *dest, const char *src);
 
+// Declaración de la función manual de strlen
 int my_strlen(const char *str);
 
+// Declaración de la función manual de strcmp
 int* reverse_array(int* array, int size);
 
+// Declaración de la función transformar string a array separado por coma
 void transform_string_to_array(const char input[], int output[], int *count);
 #endif // ARCHIVOS_H

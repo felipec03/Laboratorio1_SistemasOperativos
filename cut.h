@@ -1,7 +1,12 @@
 #ifndef CUT_H
 #define CUT_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
 #include "archivos.h"
+
 
 // Estructura para almacenar las columnas de cada línea
 typedef struct {

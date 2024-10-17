@@ -2,14 +2,14 @@
 
 // Función que cuenta el número de líneas en el archivo
 // Entrada: Puntero a la estructura CSVData
-// Salida: Número de líneas en el archivo
+// Salida: Numero de líneas en el archivo
 int contar_lineas(CSVData *data){
     return data->line_count;
 }
 
-// Función que cuenta el número de caracteres en todas las líneas
+// Funcon que cuenta el numero de caracteres en todas las líneas
 // Entrada: Puntero a la estructura CSVData
-// Salida: Número de caracteres en todas las líneas
+// Salida: Numero de caracteres en todas las lineas
 int contar_caracteres(CSVData *data){
     int contador = 0;
     for(int i = 0; i < data->line_count; i++){
@@ -36,24 +36,24 @@ int main(int argc, char *argv[])
     {
         switch(opt)
         {
-        	// Opción para el nombre del archivo
+        	// Opcion para el nombre del archivo
         	case 'i':
                 archivo = optarg;
                 break;
 
-            // Opción para contar el número de caracteres
+            // Opcion para contar el numero de caracteres
             case 'C':
                 opcionC = 1;
                 break;
 
-            // Opción para contar el número de líneas
+            // Opcion para contar el numero de lineas
             case 'L':
             	opcionL = 1;
                 break;
 
             // En cualquier otro caso, abortar
             default:
-				abort();
+	            abort();
         }
     }
 
