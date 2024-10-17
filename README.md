@@ -4,9 +4,18 @@
 > Además, es de importancia notar que no se utilizará la librería ```<string.h>```
 
 # Ejecución del laboratorio
-Cómo fue estipulado en clases, para poder probar los comandos es necesario el uso de makefile, por lo que el comando por
+Cómo fue estipulado en clases, para poder probar los comandos es necesario el uso de `makefile`, por lo que el comando para la generación de los archivos ejecutables es:
+```
+make all
+```
+
+Para limpiar los archivos residuales post ejecución de los archivos, se utiliza:
+```
+make clean
+```
 
 # Especificación de Archivos
+
 
 ## ```archivos.c```
 > Este archivo contiene varias implentaciones de funciones típicas de la biblioteca ```<string.h>``` y otras funciones de utilida general. Ejemplos cómo el string copy, string length, string concatenation, transformacion de string a arreglo, entre otros. 
@@ -37,3 +46,5 @@ Cómo fue estipulado en clases, para poder probar los comandos es necesario el u
 
 *Ambos archivo de texto son obligatorios, en caso de no poner nada en el string objetivo o el de reemplazo, no se efectuará la escritura.* \
 ```./cut -i archivo.txt -o salida.txt -d delimitador -c columnasPorComa```
+
+**NOTA: Si funciona para el caso donde no se eligen columnas, aun que muestre el error de formato.**

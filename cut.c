@@ -167,6 +167,7 @@ int main(int argc, char *argv[]) {
     char* archivoSalida = NULL;
     char* delimitador = NULL;
     char* stringColumnas = NULL;
+    int flagColumns = 1;
     // Ciclo para leer las opciones de los flags
     while((opt = getopt(argc, argv, "d:c:i:o:")) != -1)
     {
@@ -179,11 +180,7 @@ int main(int argc, char *argv[]) {
 	            // Opción para el string nuevo
 	        case 'c':
 	            // Si no se proporciona argumento para -c, optarg será NULL
-                if (optarg == NULL || *optarg == '\0') {
-                    stringColumnas = NULL; // No se han pasado columnas
-                } else {
-                    stringColumnas = optarg;
-                }
+                stringColumnas = optarg;
                 break;
 
 	            // Opción  para archivo de entrada
@@ -197,22 +194,21 @@ int main(int argc, char *argv[]) {
 				break;
 
             // En cualquier otro caso, alertar al usuario
-            default:
-                fprintf(stderr, "Forma de comando: %s -i input -o output -d delimitador -c columnas separadas por coma\n", argv[0]);
-                exit(EXIT_FAILURE);
+            case '?':
+                if(optopt == 'c' && stringColumnas == NULL){
+                    flagColumns = 0;
+                    break;
+                }
+                else{
+                    fprintf(stderr, "Forma de comando: %s -i input -o output -d delimitador -c columnas separadas por coma\n", argv[0]);
+                    break;
+                }
         }
     }
     // Abrir los archivos para copiar en caso de que no se especifiquen columnas
-    
     FILE *inputFile = fopen(archivoEntrada, "r");
     FILE *outputFile = fopen(archivoSalida, "a");
-    if (stringColumnas == NULL) {
-        // Si no se especifica la opción -c o nulo, copiar el archivo completo, no cambia nada
-        if (inputFile == NULL || outputFile == NULL) {
-            fprintf(stderr, "Error al abrir los archivos\n");
-            exit(EXIT_FAILURE);
-        }
-
+    if (flagColumns == 0) {
         // Llamar a la función copyarch para copiar el contenido
         copyarch(inputFile, outputFile);
 
