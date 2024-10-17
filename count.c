@@ -7,7 +7,7 @@ int contar_lineas(CSVData *data){
     return data->line_count;
 }
 
-// Funcon que cuenta el numero de caracteres en todas las líneas
+// Funcion que cuenta el numero de caracteres en todas las líneas
 // Entrada: Puntero a la estructura CSVData
 // Salida: Numero de caracteres en todas las lineas
 int contar_caracteres(CSVData *data){

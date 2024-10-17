@@ -27,11 +27,13 @@ void read_csv(const char *filename, CSVData *data);
 void print_csv(const CSVData *data);
 
 /*
-Funciones orientadas a string
+Funciones orientadas a "string" la mayoría son implementaciones 
+artesanales por restricción de librerías, en el fondo son reimplementaciones
 */
 
 // Declaración de la función para contar la cantidad de palabras en un string
 void my_strcpy(char *dest, const char *src);
+
 // Declaración de la función manual de strcat
 char* my_strcat(char *dest, const char *src);
 

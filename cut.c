@@ -50,9 +50,11 @@ void split(CSVData *data, const char delimiter, CSVColumns *columns_data) {
 
             // Iteramos sobre la línea para separar las columnas
             for (int j = 0; j <= line_len; j++) {
+                // Si encontramos el delimitador o el final de la línea, separamos
                 if (line[j] == actual_delimiter || line[j] == '\0') {
                     int word_len = j - start;
                     columns[col_count] = (char *)malloc(sizeof(char) * (word_len + 1));
+                    // Para cada columna copiamos contenido
                     for (int k = 0; k < word_len; k++) {
                         columns[col_count][k] = line[start + k];
                     }
@@ -146,7 +148,9 @@ void out(char ***cut_data, int num_lines, int num_cols, const char *filename, ch
 // Salida: void, copia el contenido de un archivo a otro, file1->file2
 void copyarch(FILE *file1, FILE *file2) {
     char c;
+    // Mientras no se acabe el archivo, copiar caracter por caracter
     while ((c = fgetc(file1)) != EOF) {
+        // de biblioteca iostream
         fputc(c, file2);
     }
 }
@@ -202,7 +206,7 @@ int main(int argc, char *argv[]) {
     FILE *inputFile = fopen(archivoEntrada, "r");
     FILE *outputFile = fopen(archivoSalida, "a");
     if (stringColumnas == NULL) {
-        // Si no se especifica la opción -c o si es una cadena vacía, copiar el archivo completo
+        // Si no se especifica la opción -c o nulo, copiar el archivo completo, no cambia nada
         if (inputFile == NULL || outputFile == NULL) {
             fprintf(stderr, "Error al abrir los archivos\n");
             exit(EXIT_FAILURE);

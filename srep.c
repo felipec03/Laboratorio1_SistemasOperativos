@@ -58,52 +58,59 @@ char *my_strncpy(char *dest, const char *src, int n) {
 }
 
 // Función str_replace modificada usando funciones personalizadas de cadenas
-char *str_replace(char *orig, char *rep, char *with) {
-    char *result;  // Cadena resultante
-    char *ins;     // Punto de inserción actual
-    char *tmp;     // Variable temporal
-    int len_rep;   // Longitud de la cadena a reemplazar
-    int len_with;  // Longitud de la cadena de reemplazo
-    int len_front; // Distancia entre el inicio y la ocurrencia de 'rep'
-    int count;     // Número de reemplazos
+char *str_replace(char *stringOrigen, char *stringObjetivo, char *stringRemplazo) {
+    // Cadena resultante
+    char *resultado;  
+    // Punto de inserción actual
+    char *ins;     
+    // Variable temporal
+    char *tmp;
+    // Longitud de la cadena a reemplazar
+    int len_rep;   
+    // Longitud de la cadena de reemplazo
+    int len_with;  
+    // Distancia entre el inicio y la ocurrencia de 'stringObjetivo'
+    int len_front; 
+    // Número de reemplazos
+    int count;     
 
-    // Verificaciones de seguridad
-    if (!orig || !rep)
+    // Caso borde, si alguna de las cadenas es nula -> retornar nulo
+    if (!stringOrigen || !stringObjetivo)
         return NULL;
 
-    len_rep = my_strlen(rep);
-    // Evita bucle infinito si 'rep' está vacío
+    len_rep = my_strlen(stringObjetivo);
+    // Evita bucle infinito si objetivo es nulo
     if (len_rep == 0)
         return NULL;
 
-    // Si 'with' es NULL, usa cadena vacía
-    if (!with)
-        with = "";
-    len_with = my_strlen(with);
+    // Si stringRemplazo es NULL usa cadena vacía
+    if (!stringRemplazo)
+        stringRemplazo = "";
+    len_with = my_strlen(stringRemplazo);
 
     // Cuenta el número de reemplazos necesarios
-    ins = orig;
-    for (count = 0; (tmp = my_strstr(ins, rep)); ++count) {
+    ins = stringOrigen;
+    for (count = 0; (tmp = my_strstr(ins, stringObjetivo)); ++count) {
         ins = tmp + len_rep;
     }
 
     // Asigna memoria para la cadena resultante, si falla memoria, retorna NULL
-    tmp = result = malloc(my_strlen(orig) + (len_with - len_rep) * count + 1);
-    if (!result)
+    tmp = resultado = malloc(my_strlen(stringOrigen) + (len_with - len_rep) * count + 1);
+    if (!resultado)
         return NULL;
 
     // Realiza los reemplazos
     while (count--) {
-        ins = my_strstr(orig, rep);
-        len_front = ins - orig;
-        tmp = my_strncpy(tmp, orig, len_front) + len_front;
-        tmp = my_strcpy2(tmp, with) + len_with;
-        orig += len_front + len_rep;
+        ins = my_strstr(stringOrigen, stringObjetivo);
+        len_front = ins - stringOrigen;
+        tmp = my_strncpy(tmp, stringOrigen, len_front) + len_front;
+        tmp = my_strcpy2(tmp, stringRemplazo) + len_with;
+        stringOrigen += len_front + len_rep;
     }
 
     // Copia el resto de la cadena original
-    my_strcpy(tmp, orig);
-    return result;
+    my_strcpy(tmp, stringOrigen);
+    return resultado;
 }
 
 // Función que reemplaza un string por otro en un archivo CSV y escribe el resultado en un nuevo archivo
