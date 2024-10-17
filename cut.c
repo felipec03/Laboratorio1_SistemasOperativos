@@ -183,7 +183,7 @@ int main(int argc, char *argv[]) {
 	            // Opción  para archivo de entrada
 	        case 'i':
 	           	archivoEntrada = optarg;
-	                break;
+	            break;
 
 	            // Opción para archivo de salida
 	        case 'o':
@@ -233,8 +233,19 @@ int main(int argc, char *argv[]) {
 
     // Aplicar la funcion cut para extraer las columnas objetivo
     char ***resultado_cut = cut(&columns_data, arrayColumnas, numColumnas);
-    //escribir el resultado en un archivo
-    out(resultado_cut, columns_data.line_count, numColumnas, archivoSalida, delimitadorChar);
+
+    // Escribir el resultado en un archivo CSV de salida
+    if(numColumnas==0){
+        FILE *file1 = fopen(archivoEntrada, "r");
+        FILE *file2 = fopen(archivoSalida, "w");
+        copyarch(file1, file2);
+        fclose(file1);
+        fclose(file2);
+    }
+    else{
+        out(resultado_cut, columns_data.line_count, numColumnas, archivoSalida, delimitadorChar);
+
+    }    
     // Liberar memoria, buena practica =)
     for (int i = 0; i < columns_data.line_count; i++) {
         for (int j = 0; j < numColumnas; j++) {

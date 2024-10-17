@@ -8,7 +8,7 @@
 // a un string nuevo en todas las columnas
 // char*** reemplazar_string(CSVData* data, char* objetivo, char* nuevo);
 
-void srep(CSVData *data, char *string_objetivo, char *string_nuevo);
+void srep(CSVData *data, char *string_objetivo, char *string_nuevo, char* output_file);
 
 char *my_strncpy(char *dest, const char *src, int n);
 
