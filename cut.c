@@ -141,7 +141,9 @@ void out(char ***cut_data, int num_lines, int num_cols, const char *filename, ch
     fclose(file);
 }
 
-//funcion para copiar un archivo a otro
+// funcion para copiar un archivo a otro
+// Entrada: file1: archivo de entrada en modo lectura, file2: archivo de salida en modo escritura
+// Salida: void, copia el contenido de un archivo a otro, file1->file2
 void copyarch(FILE *file1, FILE *file2) {
     char c;
     while ((c = fgetc(file1)) != EOF) {
@@ -162,7 +164,7 @@ int main(int argc, char *argv[]) {
     char* delimitador = NULL;
     char* stringColumnas = NULL;
     // Ciclo para leer las opciones de los flags
-    while((opt = getopt(argc, argv, "d:c:i:o:")) != -1)
+    while((opt = getopt(argc, argv, "d:c::i:o:")) != -1)
     {
         switch(opt) {
 	       	// Opción para el string objetivo
