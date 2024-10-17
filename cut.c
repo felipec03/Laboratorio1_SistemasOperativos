@@ -172,8 +172,13 @@ int main(int argc, char *argv[]) {
 
 	            // Opción para el string nuevo
 	        case 'c':
-	            stringColumnas = optarg;
-	            break;
+	            // Si no se proporciona argumento para -c, optarg será NULL
+                if (optarg == NULL || *optarg == '\0') {
+                    stringColumnas = NULL; // No se han pasado columnas
+                } else {
+                    stringColumnas = optarg;
+                }
+                break;
 
 	            // Opción  para archivo de entrada
 	        case 'i':
@@ -191,7 +196,24 @@ int main(int argc, char *argv[]) {
                 exit(EXIT_FAILURE);
         }
     }
+    // Abrir los archivos para copiar en caso de que no se especifiquen columnas
+    FILE *inputFile = fopen(archivoEntrada, "r");
+    FILE *outputFile = fopen(archivoSalida, "a");
+    if (stringColumnas == NULL) {
+        // Si no se especifica la opción -c o si es una cadena vacía, copiar el archivo completo
+        if (inputFile == NULL || outputFile == NULL) {
+            fprintf(stderr, "Error al abrir los archivos\n");
+            exit(EXIT_FAILURE);
+        }
 
+        // Llamar a la función copyarch para copiar el contenido
+        copyarch(inputFile, outputFile);
+
+        // Cerrar los archivos
+        fclose(inputFile);
+        fclose(outputFile);
+        return 0;
+    }
     // Typecasting del delimitador y de las columnas para procesamiento adecuado
     const char delimitadorChar = delimitador[0];
 
@@ -211,19 +233,8 @@ int main(int argc, char *argv[]) {
 
     // Aplicar la funcion cut para extraer las columnas objetivo
     char ***resultado_cut = cut(&columns_data, arrayColumnas, numColumnas);
-
-    // Escribir el resultado en un archivo CSV de salida
-    if(numColumnas==0){
-        FILE *file1 = fopen(archivoEntrada, "r");
-        FILE *file2 = fopen(archivoSalida, "w");
-        copyarch(file1, file2);
-        fclose(file1);
-        fclose(file2);
-    }
-    else{
-        out(resultado_cut, columns_data.line_count, numColumnas, archivoSalida, delimitadorChar);
-
-    }    
+    //escribir el resultado en un archivo
+    out(resultado_cut, columns_data.line_count, numColumnas, archivoSalida, delimitadorChar);
     // Liberar memoria, buena practica =)
     for (int i = 0; i < columns_data.line_count; i++) {
         for (int j = 0; j < numColumnas; j++) {
