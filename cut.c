@@ -168,7 +168,7 @@ int main(int argc, char *argv[]) {
     char* delimitador = NULL;
     char* stringColumnas = NULL;
     // Ciclo para leer las opciones de los flags
-    while((opt = getopt(argc, argv, "d:c::i:o:")) != -1)
+    while((opt = getopt(argc, argv, "d:c:i:o:")) != -1)
     {
         switch(opt) {
 	       	// Opción para el string objetivo
@@ -203,6 +203,7 @@ int main(int argc, char *argv[]) {
         }
     }
     // Abrir los archivos para copiar en caso de que no se especifiquen columnas
+    
     FILE *inputFile = fopen(archivoEntrada, "r");
     FILE *outputFile = fopen(archivoSalida, "a");
     if (stringColumnas == NULL) {
@@ -220,6 +221,8 @@ int main(int argc, char *argv[]) {
         fclose(outputFile);
         return 0;
     }
+    else{
+
     // Typecasting del delimitador y de las columnas para procesamiento adecuado
     const char delimitadorChar = delimitador[0];
 
@@ -240,18 +243,8 @@ int main(int argc, char *argv[]) {
     // Aplicar la funcion cut para extraer las columnas objetivo
     char ***resultado_cut = cut(&columns_data, arrayColumnas, numColumnas);
 
-    // Escribir el resultado en un archivo CSV de salida
-    if(numColumnas==0){
-        FILE *file1 = fopen(archivoEntrada, "r");
-        FILE *file2 = fopen(archivoSalida, "w");
-        copyarch(file1, file2);
-        fclose(file1);
-        fclose(file2);
-    }
-    else{
-        out(resultado_cut, columns_data.line_count, numColumnas, archivoSalida, delimitadorChar);
+    out(resultado_cut, columns_data.line_count, numColumnas, archivoSalida, delimitadorChar);
 
-    }    
     // Liberar memoria, buena practica =)
     for (int i = 0; i < columns_data.line_count; i++) {
         for (int j = 0; j < numColumnas; j++) {
@@ -262,4 +255,5 @@ int main(int argc, char *argv[]) {
     free(resultado_cut);
 
     return 0;
+    }
 }
