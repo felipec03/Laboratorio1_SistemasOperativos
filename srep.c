@@ -180,13 +180,23 @@ int main(int argc, char *argv[]){
 				archivoSalida = optarg;
 				break;
 
-            // En cualquier otro caso, abortar
-            default:
-                fprintf(stderr, "Forma de comando: %s -i input -o output -s objetivo -S nuevo\n", argv[0]);
-                exit(EXIT_FAILURE);
+            // En cualquier otro caso, revisar casos borde:
+            case '?':
+                if(stringNuevo == NULL && optopt == 'S'){
+                    fprintf(stderr, "Falta el string nuevo\n");
+                    return 1;
+                }
+                else if(stringObjetivo == NULL && optopt == 's'){
+                    fprintf(stderr, "Falta el string objetivo\n");
+                    return 1;
+                }
+                else{
+                    fprintf(stderr, "Forma de comando: %s -i input -o output -s objetivo -S nuevo\n", argv[0]);
+                    exit(EXIT_FAILURE);
+                }
         }
     }
-
+    
     // Inicializamos la estructura CSVData
     CSVData* inputData = malloc(sizeof(CSVData));
 
